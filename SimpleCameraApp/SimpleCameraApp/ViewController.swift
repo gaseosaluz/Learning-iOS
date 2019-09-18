@@ -62,6 +62,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     @IBAction func savePicture(_ sender: Any) {
+        let imageData = imageView.image!.pngData()
+        let compressedImage = UIImage(data: imageData!)
+        
+        UIImageWriteToSavedPhotosAlbum(compressedImage!, nil,  nil, nil)
+        
+        let alert = UIAlertController(title: "Saved", message: "Your picture has been saved", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
 }
