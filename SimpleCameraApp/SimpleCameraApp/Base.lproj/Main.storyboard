@@ -18,28 +18,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6e3-nM-woE">
-                                <rect key="frame" x="87" y="219" width="240" height="234"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="6e3-nM-woE">
+                                <rect key="frame" x="76" y="201" width="281" height="455"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="455" id="ASe-KE-CYj"/>
+                                </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y9E-7y-GjZ">
-                                <rect key="frame" x="154" y="165" width="85" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Take Picture"/>
-                                <connections>
-                                    <action selector="takePicture:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gsw-6V-vqN"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wig-zS-nTk">
-                                <rect key="frame" x="164" y="503" width="86" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wig-zS-nTk">
+                                <rect key="frame" x="153" y="712" width="86" height="30"/>
                                 <state key="normal" title="Save Picture"/>
                                 <connections>
                                     <action selector="savePicture:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1G1-vq-6uB"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y9E-7y-GjZ">
+                                <rect key="frame" x="164" y="64" width="86" height="30"/>
+                                <state key="normal" title="Take Picture"/>
+                                <connections>
+                                    <action selector="takePicture:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gsw-6V-vqN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="y9E-7y-GjZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="164" id="1ws-Iy-F4H"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Wig-zS-nTk" secondAttribute="bottom" constant="120" id="BSt-Ww-29R"/>
+                            <constraint firstItem="6e3-nM-woE" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="201" id="Bm6-a0-mSq"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6e3-nM-woE" secondAttribute="trailing" constant="57" id="EkO-vr-Dbu"/>
+                            <constraint firstItem="6e3-nM-woE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="76" id="IMg-xJ-xy0"/>
+                            <constraint firstItem="6e3-nM-woE" firstAttribute="centerX" secondItem="Wig-zS-nTk" secondAttribute="centerX" constant="20.5" id="e1Q-C3-i00"/>
+                            <constraint firstItem="y9E-7y-GjZ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nIc-8R-ubS"/>
+                            <constraint firstItem="y9E-7y-GjZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="xee-Nn-COo"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
