@@ -209,13 +209,62 @@ if let faceLandMarkDetectionResults = faceLandMarkRequest.results as? [VNFaceObs
                 }
                 
             // Similar to what we wrote before execpt the instatiation of the model.
+            
+            // Next we want to crop the face from the rest of the image.
+            // we will write that code in a seprate file so that it can taken
+            // to another app. The code will be an extension to CIImage. Code is
+            // not in this notebook, but rather in a seprate file in the
+            // 'sources' folder.
+            
+        let ciImage = CIImage(cgImage: images[faceIdx].cgImage!)
+        
+        let cropRect = CGRect(x: max(x - (faceRect.width * 0.15),0),
+                              y: max(y - (faceRect.height * 0.1),0),
+                              width: min(w + (faceRect.width * 0.3), imageSize.height),
+                              height: min(h + (faceRect.height * 0.6), imageSize.height))
+        guard let croppedCIImage = ciImage.crop(rect: cropRect)
+            else{
+                fatalError("Failed to crop image")
+                }
+        //
+        
+        let resizedCroppedCIImage = croppedCIImage.resize(size: CGSize(width: 48, height: 48))
+        
+        // Get raw pixels from cropped image, and rescale them by
+        // dividig them by the max value (255)
+        guard let resizedCroppedCIImageData =
+            resizedCroppedCIImage.getGrayScalePixelData() else {
+                fatalError("Failed to get GrayScale Image")
+                }
+                let scaledImageData = resizedCroppedCIImageData.map( {(pixel) -> Double in return Double(pixel)/255.0
+                })
+         
+        guard let array = try? MLMultiArray(shape: [1, 48, 48], dataType: .double) else {
+                fatalError("Unable to create MLMultiArray")
+            }
+        
+        for (index, element) in scaledImageData.enumerated() {
+                array[index] = NSNumber(value: element)
+                }
+
+        DispatchQueue.global(qos: .background).async {
+            let prediction = try? model.prediction(
+                image: array)
+             if let classPredictions = prediction?.classLabelProbs{
+                DispatchQueue.main.sync {
+                    for (k, v) in classPredictions{
+                        print("\(k) \(v)")
+                    }
+                }
+            }
+        }  
             }
         }
     }
 
 
 }
-// Function to handle the translation from Quartz to UIKit coordinates
+
 
 
 
