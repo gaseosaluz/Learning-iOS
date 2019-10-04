@@ -117,3 +117,11 @@ fastlane/test_output
 ## Media files
 *.dng
 *.DNG
+
+## Machien Learning Modeling files
+## Please see readme.MD files in appropriate directories to see exaclty
+## what and why things have been excludde
+*.h5
+Training/
+images/
+
