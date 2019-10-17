@@ -81,14 +81,46 @@ extension YOLOFacade{
             return
         }
         
-        // TODO pass models results to detectObjectsBounds(::)
+        // Pass models results to detectObjectsBounds(::)
         
-        completionHandler(nil)
+        guard let observations = request.results as? [VNCoreMLFeatureValueObservation] else {
+            completionHandler(nil)
+            return
+        }
+        var detectedObjects = [ObjectBounds]()
+        
+        for observation in observations{
+            guard let multiArray = observation.featureValue.multiArrayValue else{
+                continue
+            }
+            
+            if let observationDetectedObjects = self.detectObjectsBounds(array: multiArray) {
+                for detectedOject in observationDetectedObjects.map({$0.transformFromCenteredCropping(from: photo.size, to: self.targetSize)}){
+                    detectedObjects.append(detectedOject)
+                }
+            }
+        
+        }
+        completionHandler(detectedObjects)
+        
     }
     
     func detectObjectsBounds(array:MLMultiArray, objectThreshold:Float = 0.3) -> [ObjectBounds]?{
         
-        // TODO interpret the models output
+        // Interpret the models output
+        // This method receives a MLMultiArray with shape of (125, 13, 13). The (13,13) is the
+        // shape of the grid. The 125 represents the encoding of five blocks each containing the
+        // bounding box, the probability of an object being present and the probabioity distribution
+        // across 20 classes.
+        let gridStride = array.strides[0].intValue
+        let rowStride = array.strides[1].intValue
+        let colStride = array.strides[2].intValue
+        
+        let arrayPointer = UnsafeMutablePointer<Double>(OpaquePointer(array.dataPointer))
+        
+        var objectBounds = [ObjectBounds]()
+        var objectConfidences = [Float]()
+        
         
         return nil
     }
