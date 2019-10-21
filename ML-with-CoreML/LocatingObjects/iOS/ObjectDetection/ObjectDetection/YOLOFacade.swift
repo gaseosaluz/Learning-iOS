@@ -121,7 +121,37 @@ extension YOLOFacade{
         var objectBounds = [ObjectBounds]()
         var objectConfidences = [Float]()
         
+        // iterate through the model's output and process each grid cell and anchor boxes
         
+        for row in 0..<Int(gridSize.height) {
+            for col in 0..<Int(gridSize.width) {
+                for b in 0..<numberOfAnchorBoxes {
+                    // Gives relevant offet for the specific grid cell
+                    let gridOffset = row * rowStride + col * colStride
+                    // Gives index of the associatd anchor box
+                    let anchorBoxOffset = b * (numberOfClasses + numberOfAnchorBoxes)
+                    
+                    // Calculate the confidence of each class ignoring if under threshold
+                    // We apply sigmoid to squash the values so that their sume is equal 1.0
+                    let confidence = sigmoid(x: Float(arrayPointer[(anchorBoxOffset+4) * gridStride + gridOffset]))
+                    var classes = Array<Float>(repeating: 0.0, count: numberOfClasses)
+                    for c in 0..<numberOfClasses{
+                        classes[c] = Float(arrayPointer[(anchorBoxOffset + 5 + c) * gridStride + gridOffset])
+                    }
+                    classes = softmax(z: classes)
+                    
+                    let classIdx = classes.argmax
+                    let classScore = classes[classIdx]
+                    let classConfidence = classScore * confidence
+                    
+                    if classConfidence < objectThreshold {
+                        continue
+                    }
+                    
+                    // TODO obtain bounding box and transforms to image dimensions.
+                }
+            }
+        }
         return nil
     }
 }
