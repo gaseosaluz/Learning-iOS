@@ -118,7 +118,7 @@ extension YOLOFacade{
         
         let arrayPointer = UnsafeMutablePointer<Double>(OpaquePointer(array.dataPointer))
         
-        var objectBounds = [ObjectBounds]()
+        var objectsBounds = [ObjectBounds]()
         var objectConfidences = [Float]()
         
         // iterate through the model's output and process each grid cell and anchor boxes
@@ -133,6 +133,7 @@ extension YOLOFacade{
                     
                     // Calculate the confidence of each class ignoring if under threshold
                     // We apply sigmoid to squash the values so that their sume is equal 1.0
+                    // implementation of "sigmoid" is in the Math.swift ile
                     let confidence = sigmoid(x: Float(arrayPointer[(anchorBoxOffset+4) * gridStride + gridOffset]))
                     var classes = Array<Float>(repeating: 0.0, count: numberOfClasses)
                     for c in 0..<numberOfClasses{
@@ -148,7 +149,37 @@ extension YOLOFacade{
                         continue
                     }
                     
-                    // TODO obtain bounding box and transforms to image dimensions.
+                    // Obtain bounding box and transforms to image dimensions.
+                    // Get four values from the grid's anchor box segment
+                    let tx = CGFloat(arrayPointer[anchorBoxOffset * gridStride + gridOffset])
+                    let ty = CGFloat(arrayPointer[(anchorBoxOffset + 1) * gridStride + gridOffset])
+                    let tw = CGFloat(arrayPointer[(anchorBoxOffset + 2) * gridStride + gridOffset])
+                    let th = CGFloat(arrayPointer[(anchorBoxOffset + 3) * gridStride + gridOffset])
+                    
+                    // Transform into from grid coordinate system to the image coordinate system
+                    let cx = (sigmoid(x: tx) + CGFloat(col)) / gridSize.width
+                    let cy = (sigmoid(x: ty) + CGFloat(row)) / gridSize.height
+                    let w = CGFloat(anchors[2 * b + 0]) * exp(tw) / gridSize.width
+                    let h = CGFloat(anchors[2 * b + 1]) * exp(th) / gridSize.height
+                    
+                    // Create a ObjectBounds instance and store it in our array of candidates.
+                    guard let detectableObject = DetectableObject.objects.filter({$0.classIndex == classIdx}).first else {
+                        continue
+                    }
+                    
+                    let objectBounds = ObjectBounds(
+                        object: detectableObject,
+                        origin: CGPoint(x: cx - w/2, y: cy - h/2),
+                        size: CGSize(width: w, height: h))
+                    
+                    objectsBounds.append(objectBounds)
+                    objectConfidences.append(classConfidence)
+                    
+                    // By this time we have an array populatd with our candidae detected Objects
+                    // Now we need to filter them
+                    
+                    return self.filterDetectedObjects(objectsBounds: objectsBounds, objectsConfidence: objectConfidences)
+                    
                 }
             }
         }
@@ -158,6 +189,11 @@ extension YOLOFacade{
 
 // MARK: - Non-Max Suppression
 // Implementing the Non-Max Supression algorithm
+// 1. Order detected boxes from most confident to least confident
+// 2. As long as there are valid boxes (a) Pick the box with the highest confidence value
+//    (this should be the top of the ordered array) and (b) iterate through all of the
+//    remaining boxes descarding any with an IoU value greater than a predefined threshold.
+
 extension YOLOFacade{
     
     func filterDetectedObjects(objectsBounds:[ObjectBounds],
@@ -169,8 +205,39 @@ extension YOLOFacade{
             return []
         }
         
-        // TODO implement Non-Max Suppression
+        // Implement Non-Max Suppression
         
-        return nil
+        var detectionConfidence = objectsConfidence.map{(confidence) -> Float in
+            return confidence
+        }
+        
+        let sortedIndices = detectionConfidence.indices.sorted { detectionConfidence[$0] > detectionConfidence[$1]
+            
+        }
+        
+        var bestObjectBounds = [ObjectBounds]()
+        
+        // Iterate through each box
+        
+        for i in 0..<sortedIndices.count{
+            let objectBounds = objectsBounds[sortedIndices[i]]
+            guard detectionConfidence[sortedIndices[i]] > 0 else {
+                continue
+            }
+            bestObjectBounds.append(objectBounds)
+            
+            for j in (i+1)..<sortedIndices.count{
+                guard detectionConfidence[sortedIndices[j]] > 0 else {
+                    continue
+                }
+                let otherObjectBounds = objectsBounds[sortedIndices[j]]
+                
+                // Calculate IoU and compare against our threshold.
+                if Float(objectBounds.bounds.computeIOU(other: otherObjectBounds.bounds)) > nmsThreshold{detectionConfidence[sortedIndices[j]] = 0.0
+                }
+            }
+        }
+        
+        return bestObjectBounds
     }
 }
