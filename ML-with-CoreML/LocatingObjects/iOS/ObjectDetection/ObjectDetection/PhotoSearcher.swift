@@ -142,8 +142,37 @@ extension PhotoSearcher{
         
         var cost : Float = 0.0
         
-        // TODO implement cost function for object presence
+        // Cost function for object presence
+        var searchObjectCounts = searchCriteria.map {
+            (detectedObject) -> String in
+            return detectedObject.object.label
+            }.reduce([:]) {
+                (counter:[String:Float], label) -> [String:Float] in
+                var counter = counter
+                counter[label] = counter[label]?.advanced(by: 1) ?? 1
+                return counter
+            }
+        var detectedObjectCounts = detectedObject.detectedObjects.map {
+            (detectedObject) -> String in
+            return detectedObject.object.label
+        }.reduce([:]) {
+            (counter:[String:Float], label) -> [String:Float] in
+            var counter = counter
+            counter[label] = counter[label]?.advanced(by: 1) ?? 1
+            return counter
+        }
         
+        //
+        // Iterate through all possible labels and compute the cost based on the
+        // difference between the two dictionaries
+        for detectableObject in DetectableObject.objects{
+            let label = detectableObject.label
+            
+            let searchCount = searchObjectCounts[label] ?? 0
+            let detectedCount = detectedObjectCounts[label] ?? 0
+            
+            cost += abs(searchCount - detectedCount)
+        }
         return cost * weight
     }
     
@@ -152,35 +181,98 @@ extension PhotoSearcher{
         searchCriteria:[ObjectBounds],
         weight:Float=1.5) -> Float{
         
+        func indexOfClosestObject(objects:[ObjectBounds], forObjectAtIndex i:Int) -> Int{
+            let searchACenter = objects[i].bounds.center
+            
+            var closestDistance = Float.greatestFiniteMagnitude
+            var closestObjectIndex : Int = -1
+            
+            for j in 0..<objects.count{
+                guard i != j else{
+                    continue
+                }
+                
+                let searchBCenter = objects[j].bounds.center
+                let distance = Float(searchACenter.distance(other: searchBCenter))
+                if distance < closestDistance{
+                    closestObjectIndex = j
+                    closestDistance = distance
+                }
+            }
+            
+            return closestObjectIndex
+        }
         var cost : Float = 0.0
         
-        // TODO implement cost function for relative positioning 
+        //
+        for si in 0..<searchCriteria.count{
+            let closestObjectIndex = indexOfClosestObject(objects: searchCriteria,
+                                                          forObjectAtIndex: si)
+            if closestObjectIndex < 0{
+                continue
+            }
+            
+            // Get object types
+            let searchAClassIndex = searchCriteria[si].object.classIndex
+            let searchBClassIndex = searchCriteria[closestObjectIndex].object.classIndex
+            
+            // Get centers of objects
+            let searchACenter = searchCriteria[si].bounds.center
+            let searchBCenter = searchCriteria[closestObjectIndex].bounds.center
+            
+            // Calcualte the normalised vector from A -> B
+            let searchDirection = (searchACenter - searchBCenter).normalised
+            
+            // Find comparable objects in detected objects
+            let detectedA = detectedObject.detectedObjects.filter { (objectBounds) -> Bool in
+                return objectBounds.object.classIndex == searchAClassIndex
+            }
+            
+            let detectedB = detectedObject.detectedObjects.filter { (objectBounds) -> Bool in
+                return objectBounds.object.classIndex == searchBClassIndex
+            }
+            
+            // Check that we have matching pairs
+            guard detectedA.count > 0, detectedB.count > 0 else{
+                continue
+            }
+            
+            // Give the 'benefit of doubt' and find the closest dot product
+            // between similar products
+            var closestDotProduct : Float = Float.greatestFiniteMagnitude
+            for i in 0..<detectedA.count{
+                for j in 0..<detectedB.count{
+                    if detectedA[i] == detectedB[j]{
+                        continue
+                    }
+                    
+                    // Find the direction between detected object i and detected object j
+                    let detectedDirection = (detectedA[i].bounds.center - detectedB[j].bounds.center).normalised
+                    let dotProduct = Float(searchDirection.dot(other: detectedDirection))
+                    if closestDotProduct > 10 ||
+                        (dotProduct < closestDotProduct &&
+                            dotProduct >= 0) {
+                        closestDotProduct = dotProduct
+                    }
+                }
+            }
+            
+            // Calcualte cost based on dot product
+            cost += abs((1.0-closestDotProduct))
+        }
         
         return cost * weight
     }
     
-    private func costForObjectSizeRelativeToImageSize(
-        detectedObject:SearchResult,
-        searchCriteria:[ObjectBounds],
-        weight:Float=1.0) -> Float{
+    private func costForObjectSizeRelativeToImageSize(detectedObject:SearchResult,
+                                                          searchCriteria:[ObjectBounds],
+                                                          weight:Float=1.0) -> Float{
+            return 0.0
+        }
         
-        var cost : Float = 0.0
-        
-        // TODO implement
-        
-        return cost * weight
+        private func costForObjectSizeRelativeToOtherObjects(detectedObject:SearchResult,
+                                                             searchCriteria:[ObjectBounds],
+                                                             weight:Float=0.5) -> Float{
+            return 0.0
+        }
     }
-    
-    private func costForObjectSizeRelativeToOtherObjects(
-        detectedObject:SearchResult,
-        searchCriteria:[ObjectBounds],
-        weight:Float=0.5) -> Float{
-        
-        var cost : Float = 0.0
-        
-        // TODO implement
-        
-        return cost * weight
-    }
-}
-
