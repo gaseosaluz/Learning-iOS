@@ -21,7 +21,7 @@ This project includes the Python portion (that follows the above reference) pret
 
 As of 11/2/21 the SwiftUI code is not functional.
 
-## ucihar
+## CMucihar
 
 Refactoring and rework of `tcactivityclassifier`
 
