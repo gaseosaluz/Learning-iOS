@@ -18,3 +18,18 @@ More details about each project inside their appropriate folder
 
 The folder `ML-with-CoreML has been moved to a separate repository where I am collecting iOS Specific ML projects. The link for that repo is: https://github.com/gaseosaluz/ML-iOS
 
+# Repository Contents
+
+## CoreMotion
+
+iOS Core Motion related projects. See inside the project directory for a README that describes what projects exist there
+
+## MatrixLite
+This is older code that may not work with the current (as of 11/2/21) versions of Swift and Xcode
+
+## Notebooks
+Sandbox area for various Jupyter (Python) notebooks. The contents of this directory are very dynamic and they could be moved to other directories/projects as needed
+
+## Playgrounds
+
+Experimental Swift Playground code.
