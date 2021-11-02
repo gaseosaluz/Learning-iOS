@@ -56,8 +56,33 @@ struct ContentView: View {
     @State private var activityName: String = "No Activity"
     
     var body: some View {
-        Text("HCI Activity Classifier")
-            .padding()
+        
+        VStack {
+            HStack {
+                Button("Start") {
+                    print("Enabling Core Motion")
+                }
+                .frame(width: 120)
+                .padding(10)
+                .background(Color.green)
+                .foregroundColor(Color.white)
+                .cornerRadius(10)
+                .font(.system(size: 18, weight: .bold, design: .default))
+            
+                Button("Start") {
+                    print("Stopping Core Motion")
+                }
+                .frame(width: 120)
+                .padding(10)
+                .background(Color.red)
+                .foregroundColor(Color.white)
+                .cornerRadius(10)
+                .font(.system(size: 18, weight: .bold, design: .default))
+            }
+
+            Text("HCI Activity Classifier")
+                .padding()
+        }
     }
 }
 
