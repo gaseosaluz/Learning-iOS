@@ -58,9 +58,17 @@ struct ContentView: View {
     var body: some View {
         
         VStack {
+            Text("HCI Activity Classifier")
+                .padding()
+            
             HStack {
                 Button("Start") {
                     print("Enabling Core Motion")
+                    // Make sure CoreMotion is available
+                    guard motionManager.isAccelerometerAvailable, motionManager.isGyroAvailable
+                    else {
+                        print("Core Motion is not Available")
+                        return }
                 }
                 .frame(width: 120)
                 .padding(10)
@@ -69,7 +77,7 @@ struct ContentView: View {
                 .cornerRadius(10)
                 .font(.system(size: 18, weight: .bold, design: .default))
             
-                Button("Start") {
+                Button("Stop") {
                     print("Stopping Core Motion")
                 }
                 .frame(width: 120)
@@ -79,9 +87,6 @@ struct ContentView: View {
                 .cornerRadius(10)
                 .font(.system(size: 18, weight: .bold, design: .default))
             }
-
-            Text("HCI Activity Classifier")
-                .padding()
         }
     }
 }
