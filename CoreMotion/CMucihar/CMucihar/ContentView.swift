@@ -16,9 +16,14 @@ import CoreMotion
 // MARK:- ML Model constants and Model Initialization
 
 struct ModelConstants {
+    static let numOfFeatures = 6
+    // Must be the same size as used during training
     static let predictionWindowSize = 50
+    // Must be the same value as used during training
     static let sensorsUpdateInterval = 1.0 / 50.0
     static let stateInLength = 400
+    static let hiddenInLenght = 20
+    static let hiddenCellInLenght = 200
 }
 
 // MARK: - CoreMotion constants

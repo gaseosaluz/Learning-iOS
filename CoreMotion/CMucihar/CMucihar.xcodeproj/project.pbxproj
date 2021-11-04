@@ -12,6 +12,7 @@
 		549414182731E2B4002DA480 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 549414172731E2B4002DA480 /* Assets.xcassets */; };
 		5494141B2731E2B4002DA480 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5494141A2731E2B4002DA480 /* Preview Assets.xcassets */; };
 		549414242731E4F3002DA480 /* UCIHAClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 549414232731E4F3002DA480 /* UCIHAClassifier.mlmodel */; };
+		5494142627345F7A002DA480 /* CMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5494142527345F7A002DA480 /* CMSupport.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		549414172731E2B4002DA480 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5494141A2731E2B4002DA480 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		549414232731E4F3002DA480 /* UCIHAClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = UCIHAClassifier.mlmodel; sourceTree = "<group>"; };
+		5494142527345F7A002DA480 /* CMSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMSupport.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 			children = (
 				549414132731E2B1002DA480 /* CMuciharApp.swift */,
 				549414152731E2B1002DA480 /* ContentView.swift */,
+				5494142527345F7A002DA480 /* CMSupport.swift */,
 				549414172731E2B4002DA480 /* Assets.xcassets */,
 				549414232731E4F3002DA480 /* UCIHAClassifier.mlmodel */,
 				549414192731E2B4002DA480 /* Preview Content */,
@@ -143,6 +146,7 @@
 				549414162731E2B1002DA480 /* ContentView.swift in Sources */,
 				549414242731E4F3002DA480 /* UCIHAClassifier.mlmodel in Sources */,
 				549414142731E2B1002DA480 /* CMuciharApp.swift in Sources */,
+				5494142627345F7A002DA480 /* CMSupport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
