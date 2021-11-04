@@ -62,6 +62,7 @@ struct ContentView: View {
                 .padding()
             
             HStack {
+                // MARK: - Start data collection
                 Button("Start") {
                     print("Enabling Core Motion")
                     // Make sure CoreMotion is available
@@ -77,6 +78,7 @@ struct ContentView: View {
                 .cornerRadius(10)
                 .font(.system(size: 18, weight: .bold, design: .default))
             
+                // MARK: - Stop data collection
                 Button("Stop") {
                     print("Stopping Core Motion")
                 }
