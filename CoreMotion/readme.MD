@@ -23,5 +23,7 @@ As of 11/2/21 the SwiftUI code is not functional.
 
 ## CMucihar
 
-Refactoring and rework of `tcactivityclassifier`
+SwiftUI based application.  
+
+Refactoring and rework of `tcactivityclassifier`. Code that uses a Core ML model trained on the UCI dataset (http://archive.ics.uci.edu/ml/datasets/Smartphone-Based+Recognition+of+Human+Activities+and+Postural+Transitions )
 
