@@ -9,6 +9,8 @@ import Foundation
 import CoreMotion
 import CoreML
 
+
+
 // MARK: Function to stop Core Motion and data collection
 func stopDeviceMotion () {
     guard motionManager.isDeviceMotionAvailable else {
