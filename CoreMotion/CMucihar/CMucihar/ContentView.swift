@@ -81,22 +81,66 @@ let motionManager = CMMotionManager()
 
 struct ContentView: View {
     @State private var activityName: String = "No Activity"
+    @State private var coreMotionStatus: String = "Core Motion not available"
+
+    let motionManager = CMMotionManager()
+    let queue = OperationQueue()
+
+    @State private var pitch = Double.zero
+    @State private var yaw = Double.zero
+    @State private var roll = Double.zero
+
+    @State private var x = Double.zero
+    @State private var y = Double.zero
+    @State private var z = Double.zero
+
     
     var body: some View {
         
         VStack {
             Text("HCI Activity Classifier")
+                .font(.title)
+                .fontWeight(.bold)
                 .padding()
+            
+            // MARK: Gyro Data
+            VStack{
+                Text("Gyroscope Data")
+                    .fontWeight(.bold)
+                    .font(.subheadline)
+                    .padding(5.0)
+                
+                Text("Pitch: \(pitch)")
+                Text("Yaw: \(yaw)")
+                Text("Roll: \(roll)")
+            } // End of Gyro Vstack
+            
+            VStack{
+                Text("Accelerometer Data")
+                    .fontWeight(.bold)
+                    .font(.subheadline)
+                    .padding(5.0)
+                
+                Text("Pitch: \(x)")
+                Text("Yaw: \(y)")
+                Text("Roll: \(z)")
+                
+            } // End Accelerometer Vstack
+            
             
             HStack {
                 // MARK: - Start data collection
                 Button("Start") {
                     print("Enabling Core Motion")
+                    
                     // Make sure CoreMotion is available
                     guard motionManager.isAccelerometerAvailable, motionManager.isGyroAvailable
                     else {
                         print("Core Motion is not Available")
                         return }
+                    motionManager.startAccelerometerUpdates()
+                    motionManager.startGyroUpdates()
+                    motionManager.startDeviceMotionUpdates()
                 }
                 .frame(width: 120)
                 .padding(10)
@@ -108,6 +152,9 @@ struct ContentView: View {
                 // MARK: - Stop data collection
                 Button("Stop") {
                     print("Stopping Core Motion")
+                    motionManager.stopGyroUpdates()
+                    motionManager.stopAccelerometerUpdates()
+                    motionManager.stopDeviceMotionUpdates()
                 }
                 .frame(width: 120)
                 .padding(10)
