@@ -130,7 +130,7 @@ struct ContentView: View {
                 
             } // End Accelerometer Vstack
             .onAppear{
-                print("Gyro Data")
+                print("Gyro and Accel Data")
                 self.motionManager.startDeviceMotionUpdates(to: self.queue) { (data: CMDeviceMotion?, error: Error?) in
                     guard let data = data else {
                         print("Error: \(error!)")
