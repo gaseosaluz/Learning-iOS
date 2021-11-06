@@ -98,7 +98,7 @@ struct ContentView: View {
     var body: some View {
         
         VStack {
-            Text("HCI Activity Classifier")
+            Text("UCI Activity Classifier")
                 .font(.title)
                 .fontWeight(.bold)
                 .padding()
@@ -114,6 +114,9 @@ struct ContentView: View {
                 Text("Yaw: \(yaw)")
                 Text("Roll: \(roll)")
             } // End of Gyro Vstack
+            .onAppear{
+                
+            }
             
             VStack{
                 Text("Accelerometer Data")
@@ -121,11 +124,41 @@ struct ContentView: View {
                     .font(.subheadline)
                     .padding(5.0)
                 
-                Text("Pitch: \(x)")
-                Text("Yaw: \(y)")
-                Text("Roll: \(z)")
+                Text("Accel-X: \(x)")
+                Text("Accel-Y: \(y)")
+                Text("Accel-Z: \(z)")
                 
             } // End Accelerometer Vstack
+            .onAppear{
+                print("Gyro Data")
+                self.motionManager.startDeviceMotionUpdates(to: self.queue) { (data: CMDeviceMotion?, error: Error?) in
+                    guard let data = data else {
+                        print("Error: \(error!)")
+                        return
+                    }
+                    let attitude: CMAttitude = data.attitude
+
+                    print("Pitch: \(attitude.pitch)")
+                    print("Yaw: \(attitude.yaw)")
+                    print("Roll: \(attitude.roll)")
+                    
+                    let userAcceleration: CMAcceleration = data.userAcceleration
+                    
+                    print("Accel X: \(userAcceleration.x)")
+                    print("Accel Y: \(userAcceleration.y)")
+                    print("Accel Z: \(userAcceleration.z)")
+
+                    DispatchQueue.main.async {
+                        self.pitch = attitude.pitch
+                        self.yaw = attitude.yaw
+                        self.roll = attitude.roll
+                        
+                        self.x = userAcceleration.x
+                        self.y = userAcceleration.y
+                        self.z = userAcceleration.z
+                    }
+                }
+            }
             
             
             HStack {
