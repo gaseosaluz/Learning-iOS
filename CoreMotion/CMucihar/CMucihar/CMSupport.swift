@@ -27,3 +27,4 @@ func stopDeviceMotion () {
                  ModelConstants.hiddenCellInLenght) as NSNumber],
         dataType: MLMultiArrayDataType.double)
 }
+

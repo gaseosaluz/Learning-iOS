@@ -26,8 +26,6 @@ struct ModelConstants {
     static let hiddenCellInLenght = 200
 }
 
-// MARK: - CoreMotion constants
-var currentIndexinPredictionWindow = 0
 
 // MARK: The Core ML Classifier model expects MultiArrays, so create MLMultiArray variables to hold the sensor data that we are going to feed to the model
 
@@ -79,6 +77,10 @@ let activityClassificationModel: UCIHAClassifier = {
 // MARK: - Initialize the Core Motion Manager
 let motionManager = CMMotionManager()
 
+// MARK: - CoreMotion constants
+var currentIndexinPredictionWindow = 0
+
+
 struct ContentView: View {
     @State private var activityName: String = "No Activity"
     @State private var coreMotionStatus: String = "Core Motion not available"
@@ -98,7 +100,7 @@ struct ContentView: View {
     var body: some View {
         
         VStack {
-            Text("UCI Activity Classifier")
+            Text("Activity Classifier")
                 .font(.title)
                 .fontWeight(.bold)
                 .padding()
@@ -158,7 +160,7 @@ struct ContentView: View {
                         self.z = userAcceleration.z
                     }
                 }
-            }
+            } // End .onAppear()
             
             
             HStack {
@@ -171,9 +173,26 @@ struct ContentView: View {
                     else {
                         print("Core Motion is not Available")
                         return }
+                    
+                    // Initialize various CoreMotion constants
+                    motionManager.accelerometerUpdateInterval = TimeInterval(ModelConstants.sensorsUpdateInterval)
+                    motionManager.gyroUpdateInterval = TimeInterval(ModelConstants.sensorsUpdateInterval)
+                    
+                    // Start generating samples
                     motionManager.startAccelerometerUpdates()
                     motionManager.startGyroUpdates()
                     motionManager.startDeviceMotionUpdates()
+                    
+                    print("Start Collecting Accelerometer Updates")
+                    motionManager.startAccelerometerUpdates(to: .main) { accelerometerData,
+                        error in
+                        guard let accelerometerData = accelerometerData else { return }
+                        
+                        // Add Accelerometer data to analysis array
+                        print("Add Accel Data to Analysis Array")
+                        //self.addAccelSampleToDataArray(accelSample: accelerometerData)
+                        
+                    } // End .startAccelerometerUpdates
                 }
                 .frame(width: 120)
                 .padding(10)
@@ -188,6 +207,7 @@ struct ContentView: View {
                     motionManager.stopGyroUpdates()
                     motionManager.stopAccelerometerUpdates()
                     motionManager.stopDeviceMotionUpdates()
+                    stopDeviceMotion()
                 }
                 .frame(width: 120)
                 .padding(10)
@@ -200,6 +220,36 @@ struct ContentView: View {
     }
 
 }
+
+#if ADD_DATA
+// MARK: - Function to Add motion data to the Arrays
+func addMotionDataSampleToArray(motionSample: CMDeviceMotion) {
+    // Using global queue for building prediction array
+    DispatchQueue.global().async {
+        gyroX![self.currentIndexInPredictionWindow] = motionSample.rotationRate.x as NSNumber
+        gyroY![currentIndexInPredictionWindow] = motionSample.rotationRate.y as NSNumber
+        gyroZ![currentIndexInPredictionWindow] = motionSample.rotationRate.z as NSNumber
+        self.accX![self.currentIndexInPredictionWindow] = motionSample.userAcceleration.x as NSNumber
+        self.accY![self.currentIndexInPredictionWindow] = motionSample.userAcceleration.y as NSNumber
+        self.accZ![self.currentIndexInPredictionWindow] = motionSample.userAcceleration.z as NSNumber
+        
+        // Update prediction array index
+        self.currentIndexInPredictionWindow += 1
+        
+        // If data array is full - execute a prediction
+        if (self.currentIndexInPredictionWindow == ModelConstants.predictionWindowSize) {
+            // Move to main thread to update the UI
+            DispatchQueue.main.async {
+                // Use the predicted activity
+                self.label.text = self.activityPrediction() ?? "N/A"
+            }
+            // Start a new prediction window from scratch
+            self.currentIndexInPredictionWindow = 0
+        }
+    }
+}
+#endif  // ADD_DATA
+
 
 
 struct ContentView_Previews: PreviewProvider {
