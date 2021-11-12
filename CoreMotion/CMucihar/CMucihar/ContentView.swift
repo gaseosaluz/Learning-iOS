@@ -6,6 +6,7 @@
 //
 // MARK: The model created for this program was created with the `tcHAPT` notebook in https://github.com/gaseosaluz/Learning-iOS/blob/master/CoreMotion/tcactivityclassifier/notebooks/tcHAPT.ipynb
 
+
 //
 import SwiftUI
 import CoreML
@@ -14,14 +15,14 @@ import Foundation
 
 // MARK:- Core ML Model constants
 struct ModelConstants {
-    static let numOfFeatures = 6
+//    static let numOfFeatures = 6
     // Must be the same size as used during training
-    static let predictionWindowSize = 50
+    static let predictionWindowSize = 50    // (*)
     // Must be the same value as used during training
-    static let sensorsUpdateInterval = 1.0 / 50.0
-    static let stateInLength = 400
-    static let hiddenInLenght = 20
-    static let hiddenCellInLenght = 200
+    static let sensorsUpdateInterval = 1.0 / 50.0   //(*)
+    static let stateInLength = 400  //(*)
+//    static let hiddenInLenght = 20
+//    static let hiddenCellInLenght = 200
 }
 
 // MARK: - CoreMotion constants
@@ -58,9 +59,9 @@ var stateOutput = try! MLMultiArray(
     shape:[ModelConstants.stateInLength as NSNumber],
     dataType: MLMultiArrayDataType.double)
 
-var currentState = try? MLMultiArray(
-    shape: [(ModelConstants.hiddenInLenght + ModelConstants.hiddenCellInLenght) as NSNumber],
-    dataType: MLMultiArrayDataType.double)
+//var currentState = try? MLMultiArray(
+//    shape: [(ModelConstants.hiddenInLenght + ModelConstants.hiddenCellInLenght) as NSNumber],
+//    dataType: MLMultiArrayDataType.double)
 
 // MARK: - Intialize CoreML Model
 let activityClassificationModel: UCIHAClassifier = {
@@ -221,7 +222,7 @@ struct ContentView: View {
         motionManager.stopDeviceMotionUpdates()
         // Reset some parameters
         currentIndexInPredictionWindow = 0
-        currentState = try? MLMultiArray(shape: [(20 + 200) as NSNumber], dataType: MLMultiArrayDataType.double)
+//        currentState = try? MLMultiArray(shape: [(20 + 200) as NSNumber], dataType: MLMultiArrayDataType.double)
     //      currentState = try? MLMultiArray(
     //          shape: [(ModelConstants.hiddenInLength +
     //                      ModelConstants.hiddenCellInLength) as NSNumber],
