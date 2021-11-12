@@ -183,7 +183,22 @@ struct ContentView: View {
                     motionManager.startDeviceMotionUpdates(to: .main) { (motionData, error) in
                         guard let motionData = motionData else { return }
                         addMotionDataSampleToArray(motionSample: motionData)
+                    
+                        let attitude: CMAttitude = motionData.attitude
+                        let userAcceleration: CMAcceleration = motionData.userAcceleration
+                        
+                        DispatchQueue.main.async {
+                            self.pitch = attitude.pitch
+                            self.yaw = attitude.yaw
+                            self.roll = attitude.roll
+                            
+                            self.x = userAcceleration.x
+                            self.y = userAcceleration.y
+                            self.z = userAcceleration.z
+                        }
                     }
+                    
+                    
                     
                 }
                 .frame(width: 120)
