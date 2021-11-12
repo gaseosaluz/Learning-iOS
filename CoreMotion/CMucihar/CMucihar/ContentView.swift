@@ -15,14 +15,14 @@ import Foundation
 
 // MARK:- Core ML Model constants
 struct ModelConstants {
-//    static let numOfFeatures = 6
+    //    static let numOfFeatures = 6
     // Must be the same size as used during training
     static let predictionWindowSize = 50    // (*)
     // Must be the same value as used during training
     static let sensorsUpdateInterval = 1.0 / 50.0   //(*)
     static let stateInLength = 400  //(*)
-//    static let hiddenInLenght = 20
-//    static let hiddenCellInLenght = 200
+    //    static let hiddenInLenght = 20
+    //    static let hiddenCellInLenght = 200
 }
 
 // MARK: - CoreMotion constants
@@ -181,7 +181,7 @@ struct ContentView: View {
                     // Not sure if I should use a different queue than the one using for the
                     // raw Accel/Gyro display. For now  updating to .main queuue.
                     motionManager.startDeviceMotionUpdates(to: .main) { (motionData, error) in
-                            guard let motionData = motionData else { return }
+                        guard let motionData = motionData else { return }
                         addMotionDataSampleToArray(motionSample: motionData)
                     }
                     
@@ -210,7 +210,7 @@ struct ContentView: View {
             }
         }
     }
-
+    
     // MARK: - Core Motion Support Functions
     // MARK: Function to Stop the collection of Motion Data
     func stopDeviceMotion() {
@@ -222,15 +222,15 @@ struct ContentView: View {
         motionManager.stopDeviceMotionUpdates()
         // Reset some parameters
         currentIndexInPredictionWindow = 0
-//        currentState = try? MLMultiArray(shape: [(20 + 200) as NSNumber], dataType: MLMultiArrayDataType.double)
-    //      currentState = try? MLMultiArray(
-    //          shape: [(ModelConstants.hiddenInLength +
-    //                      ModelConstants.hiddenCellInLength) as NSNumber],
-    //          dataType: MLMultiArrayDataType.double)
-
+        //        currentState = try? MLMultiArray(shape: [(20 + 200) as NSNumber], dataType: MLMultiArrayDataType.double)
+        //      currentState = try? MLMultiArray(
+        //          shape: [(ModelConstants.hiddenInLength +
+        //                      ModelConstants.hiddenCellInLength) as NSNumber],
+        //          dataType: MLMultiArrayDataType.double)
+        
     }// end of stopDeviceMotion()
     // End of function to stop collection of Motion Data
-
+    
     // MARK: Function to Start Collection of CM data to Array that will be used by the Core ML Model
     // Function to start collection of Motion Data
     func startDeviceMotion() {
@@ -250,16 +250,16 @@ struct ContentView: View {
     // MARK: Function to add data to the Core ML analysis array
     func addMotionDataSampleToArray(motionSample: CMDeviceMotion) {
         // Using global queue for building prediction array
-//        DispatchQueue.global().async {
-            gyroX[currentIndexInPredictionWindow] = motionSample.rotationRate.x as NSNumber
-            gyroY[currentIndexInPredictionWindow] = motionSample.rotationRate.y as NSNumber
-            gyroZ[currentIndexInPredictionWindow] = motionSample.rotationRate.z as NSNumber
-            accX[currentIndexInPredictionWindow] = motionSample.userAcceleration.x as NSNumber
-            accY[currentIndexInPredictionWindow] = motionSample.userAcceleration.y as NSNumber
-            accZ[currentIndexInPredictionWindow] = motionSample.userAcceleration.z as NSNumber
-//        } // End DispatchQueue.global()
+        //        DispatchQueue.global().async {
+        gyroX[currentIndexInPredictionWindow] = motionSample.rotationRate.x as NSNumber
+        gyroY[currentIndexInPredictionWindow] = motionSample.rotationRate.y as NSNumber
+        gyroZ[currentIndexInPredictionWindow] = motionSample.rotationRate.z as NSNumber
+        accX[currentIndexInPredictionWindow] = motionSample.userAcceleration.x as NSNumber
+        accY[currentIndexInPredictionWindow] = motionSample.userAcceleration.y as NSNumber
+        accZ[currentIndexInPredictionWindow] = motionSample.userAcceleration.z as NSNumber
+        //        } // End DispatchQueue.global()
         
-            // Update prediction Array Index
+        // Update prediction Array Index
         currentIndexInPredictionWindow += 1
         //print("Sample Number: \(currentIndexInPredictionWindow)")
         
@@ -270,10 +270,7 @@ struct ContentView: View {
             if let predictedActivity = performModelPrediction() {
                 activityName = predictedActivity
                 print("Predicted Activity: \(predictedActivity)")
-                        // Use the predicted activity here
-                        // ...
-
-                        // Start a new prediction window
+                // Start a new prediction window
                 currentIndexInPredictionWindow = 0
             }
             // Start a new prediction window from scratch
