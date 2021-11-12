@@ -249,15 +249,13 @@ struct ContentView: View {
     
     // MARK: Function to add data to the Core ML analysis array
     func addMotionDataSampleToArray(motionSample: CMDeviceMotion) {
-        // Using global queue for building prediction array
-        //        DispatchQueue.global().async {
+
         gyroX[currentIndexInPredictionWindow] = motionSample.rotationRate.x as NSNumber
         gyroY[currentIndexInPredictionWindow] = motionSample.rotationRate.y as NSNumber
         gyroZ[currentIndexInPredictionWindow] = motionSample.rotationRate.z as NSNumber
         accX[currentIndexInPredictionWindow] = motionSample.userAcceleration.x as NSNumber
         accY[currentIndexInPredictionWindow] = motionSample.userAcceleration.y as NSNumber
         accZ[currentIndexInPredictionWindow] = motionSample.userAcceleration.z as NSNumber
-        //        } // End DispatchQueue.global()
         
         // Update prediction Array Index
         currentIndexInPredictionWindow += 1
@@ -265,8 +263,8 @@ struct ContentView: View {
         
         // If data array is full - execute a prediction
         if (currentIndexInPredictionWindow == ModelConstants.predictionWindowSize) {
-            print("Got enough data - Make a prediction")
-            // Move to main thread to update the UI
+            print("Got enough data - Making a prediction")
+        
             if let predictedActivity = performModelPrediction() {
                 activityName = predictedActivity
                 print("Predicted Activity: \(predictedActivity)")
@@ -275,8 +273,6 @@ struct ContentView: View {
             }
             // Start a new prediction window from scratch
             print("Start a new prediction window")
-            
-            // currentIndexInPredictionWindow = 0
         }
         
     } // End of func addMotionDataSampleToArray()
