@@ -7,8 +7,7 @@
 
 import SwiftUI
 import CodableCSV
-
-
+import CoreML
 
 struct ContentView: View {
     
@@ -66,7 +65,14 @@ func parseCSVFile (csvData: String ) {
     var accY = 0.0
     var accZ = 0.0
     
+    struct ModelConstants {
+        static let predictionWindowSize = 50
+        static let sensorsUpdateInterval = 1.0 / 50.0
+        static let stateInLength = 400
+    }
     
+    var currentIndexInPredictionWindow = 0
+
 
     do {
         // NOTE: The headers are not picked up by the library.  The string is empty, however
@@ -91,6 +97,35 @@ func parseCSVFile (csvData: String ) {
         accX = Double(row[3]) ?? 0.0
         accY = Double(row[4]) ?? 0.0
         accZ = Double(row[5]) ?? 0.0
+        
+        // MARK: The Core ML Classifier model expects MultiArrays, so create MLMultiArray variables to hold the sensor data that we are going to feed to the model
+        
+        // MARK: - Accelerometer data
+        let accX = try! MLMultiArray(
+            shape: [ModelConstants.predictionWindowSize] as [NSNumber],
+            dataType: MLMultiArrayDataType.double)
+
+        let accY = try! MLMultiArray(
+            shape: [ModelConstants.predictionWindowSize] as [NSNumber],
+            dataType: MLMultiArrayDataType.double)
+
+        let accZ = try! MLMultiArray(
+            shape: [ModelConstants.predictionWindowSize] as [NSNumber],
+            dataType: MLMultiArrayDataType.double)
+
+        // MARK: - Gyroscope Data
+        let gyroX = try! MLMultiArray(
+            shape: [ModelConstants.predictionWindowSize] as [NSNumber],
+            dataType: MLMultiArrayDataType.double)
+
+        let gyroY = try! MLMultiArray(
+            shape: [ModelConstants.predictionWindowSize] as [NSNumber],
+            dataType: MLMultiArrayDataType.double)
+
+        let gyroZ = try! MLMultiArray(
+            shape: [ModelConstants.predictionWindowSize] as [NSNumber],
+            dataType: MLMultiArrayDataType.double)
+        
         
     } catch {
         print ("CSVRead: Failed to Open/Parse CSV file")
