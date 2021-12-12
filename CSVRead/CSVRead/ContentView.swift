@@ -59,8 +59,20 @@ struct ContentView: View {
 }
 
 func parseCSVFile (csvData: String ) {
+    var rotX = 0.0
+    var rotY = 0.0
+    var rotZ = 0.0
+    var accX = 0.0
+    var accY = 0.0
+    var accZ = 0.0
+    
+    
 
     do {
+        // NOTE: The headers are not picked up by the library.  The string is empty, however
+        // they are assigned to the parsedCSV[0].  Until I figure out why, make sure to start
+        // using the data begining at parsedCSV[1]
+        
         let parsedCSV = try CSVReader.decode(input: csvData)
         let headers: [String] = parsedCSV.headers
         
@@ -70,7 +82,16 @@ func parseCSVFile (csvData: String ) {
         // Access the CSV rows (i.e. raw [String] values)
         let rows = parsedCSV.rows
         let row = parsedCSV[1]
-        print(row)
+        print("Parsed row: \(row)")
+        
+        rotX = Double(row[0]) ?? 0.0
+        rotY = Double(row[1]) ?? 0.0
+        rotZ = Double(row[2]) ?? 0.0
+        
+        accX = Double(row[3]) ?? 0.0
+        accY = Double(row[4]) ?? 0.0
+        accZ = Double(row[5]) ?? 0.0
+        
     } catch {
         print ("CSVRead: Failed to Open/Parse CSV file")
     }
