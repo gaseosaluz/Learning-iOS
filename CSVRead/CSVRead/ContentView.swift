@@ -16,7 +16,7 @@ struct ContentView: View {
     @State private var isImporting: Bool = false
     @State private var isExporting: Bool = false
     
-    let csvData = ""
+    //let csvData = [String]()
     
     var body: some View {
         
@@ -44,19 +44,35 @@ struct ContentView: View {
                 guard let csvData = String(data: try Data(contentsOf: selectedFile), encoding: .utf8) else { return }
                 
                 document.message = csvData
-                // Parse the CSV data from the file
-                //let parsedCSV = try CSVReader.decode(input: csvData)
+                
+                // MARK: Parse CSV data from file
+                parseCSVFile(csvData: csvData)
                 
             } catch {
-                // Handle failure.
+                // Handle error
+                print("\(error)")
             }
+            
         }
         // End File importer
+    }
+}
 
-        let parsedCSVData = try! CSVReader.decode(input: csvData)
+func parseCSVFile (csvData: String ) {
+
+    do {
+        let parsedCSV = try CSVReader.decode(input: csvData)
+        let headers: [String] = parsedCSV.headers
         
+        print("Parsed CSV File")
         
-        
+        print(headers)
+        // Access the CSV rows (i.e. raw [String] values)
+        let rows = parsedCSV.rows
+        let row = parsedCSV[1]
+        print(row)
+    } catch {
+        print ("CSVRead: Failed to Open/Parse CSV file")
     }
 }
 
@@ -65,3 +81,5 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+
