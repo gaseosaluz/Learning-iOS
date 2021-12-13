@@ -9,6 +9,42 @@ import SwiftUI
 import CodableCSV
 import CoreML
 
+// MARK: - CoreML model constants
+
+struct ModelConstants {
+    static let predictionWindowSize = 50
+    static let sensorsUpdateInterval = 1.0 / 50.0
+    static let stateInLength = 400
+}
+
+// MARK: The Core ML Classifier model expects MultiArrays, so create MLMultiArray variables to hold the sensor data that we are going to feed to the model
+
+// MARK: - Accelerometer data
+let accX = try! MLMultiArray(
+    shape: [ModelConstants.predictionWindowSize] as [NSNumber],
+    dataType: MLMultiArrayDataType.double)
+
+let accY = try! MLMultiArray(
+    shape: [ModelConstants.predictionWindowSize] as [NSNumber],
+    dataType: MLMultiArrayDataType.double)
+
+let accZ = try! MLMultiArray(
+    shape: [ModelConstants.predictionWindowSize] as [NSNumber],
+    dataType: MLMultiArrayDataType.double)
+
+// MARK: - Gyroscope Data
+let gyroX = try! MLMultiArray(
+    shape: [ModelConstants.predictionWindowSize] as [NSNumber],
+    dataType: MLMultiArrayDataType.double)
+
+let gyroY = try! MLMultiArray(
+    shape: [ModelConstants.predictionWindowSize] as [NSNumber],
+    dataType: MLMultiArrayDataType.double)
+
+let gyroZ = try! MLMultiArray(
+    shape: [ModelConstants.predictionWindowSize] as [NSNumber],
+    dataType: MLMultiArrayDataType.double)
+
 struct ContentView: View {
     
     @State private var document: CSVDocument = CSVDocument(message: "No CSV data yet")
@@ -58,73 +94,46 @@ struct ContentView: View {
 }
 
 func parseCSVFile (csvData: String ) {
-    var rotX = 0.0
-    var rotY = 0.0
-    var rotZ = 0.0
-    var accX = 0.0
-    var accY = 0.0
-    var accZ = 0.0
+    /*
+     var rotX = 0.0
+     var rotY = 0.0
+     var rotZ = 0.0
+     var accX = 0.0
+     var accY = 0.0
+     var accZ = 0.0
+     */
     
-    struct ModelConstants {
-        static let predictionWindowSize = 50
-        static let sensorsUpdateInterval = 1.0 / 50.0
-        static let stateInLength = 400
-    }
-    
-    var currentIndexInPredictionWindow = 0
-
-
     do {
-        // NOTE: The headers are not picked up by the library.  The string is empty, however
-        // they are assigned to the parsedCSV[0].  Until I figure out why, make sure to start
-        // using the data begining at parsedCSV[1]
         
-        let parsedCSV = try CSVReader.decode(input: csvData)
-        let headers: [String] = parsedCSV.headers
+        let parsedCSV = try CSVReader(input: csvData) { $0.headerStrategy = .firstLine }
+        
+        let headers = parsedCSV.headers
         
         print("Parsed CSV File")
-        
         print(headers)
-        // Access the CSV rows (i.e. raw [String] values)
-        let rows = parsedCSV.rows
-        let row = parsedCSV[1]
-        print("Parsed row: \(row)")
         
-        rotX = Double(row[0]) ?? 0.0
-        rotY = Double(row[1]) ?? 0.0
-        rotZ = Double(row[2]) ?? 0.0
+        // let record = try parsedCSV.readRecord()
         
-        accX = Double(row[3]) ?? 0.0
-        accY = Double(row[4]) ?? 0.0
-        accZ = Double(row[5]) ?? 0.0
+        var currentIndexInPredictionWindow = 0
+        // var rowindex = 0
         
-        // MARK: The Core ML Classifier model expects MultiArrays, so create MLMultiArray variables to hold the sensor data that we are going to feed to the model
+        for row in parsedCSV {
+            gyroX[currentIndexInPredictionWindow] = Double(row[0])! as NSNumber
+            gyroY[currentIndexInPredictionWindow] = Double(row[1])! as NSNumber
+            gyroZ[currentIndexInPredictionWindow] = Double(row[2])! as NSNumber
+            
+            accX[currentIndexInPredictionWindow] = Double(row[3])! as NSNumber
+            accY[currentIndexInPredictionWindow] = Double(row[4])! as NSNumber
+            accZ[currentIndexInPredictionWindow] = Double(row[5])! as NSNumber
+            
+            currentIndexInPredictionWindow += 1
+            // rowindex = rowindex + 6
+            
+            print(("Row: \(row)"))
+        }
         
-        // MARK: - Accelerometer data
-        let accX = try! MLMultiArray(
-            shape: [ModelConstants.predictionWindowSize] as [NSNumber],
-            dataType: MLMultiArrayDataType.double)
-
-        let accY = try! MLMultiArray(
-            shape: [ModelConstants.predictionWindowSize] as [NSNumber],
-            dataType: MLMultiArrayDataType.double)
-
-        let accZ = try! MLMultiArray(
-            shape: [ModelConstants.predictionWindowSize] as [NSNumber],
-            dataType: MLMultiArrayDataType.double)
-
-        // MARK: - Gyroscope Data
-        let gyroX = try! MLMultiArray(
-            shape: [ModelConstants.predictionWindowSize] as [NSNumber],
-            dataType: MLMultiArrayDataType.double)
-
-        let gyroY = try! MLMultiArray(
-            shape: [ModelConstants.predictionWindowSize] as [NSNumber],
-            dataType: MLMultiArrayDataType.double)
-
-        let gyroZ = try! MLMultiArray(
-            shape: [ModelConstants.predictionWindowSize] as [NSNumber],
-            dataType: MLMultiArrayDataType.double)
+        currentIndexInPredictionWindow = 0
+        //rowindex = 0
         
         
     } catch {
