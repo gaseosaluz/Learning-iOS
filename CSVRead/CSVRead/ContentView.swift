@@ -71,7 +71,8 @@ struct ContentView: View {
         // MARK: File importer
         .fileImporter(
             isPresented: $isImporting,
-            allowedContentTypes: [.plainText],
+            // .plainText
+            allowedContentTypes: [.commaSeparatedText],
             allowsMultipleSelection: false
         ) { result in
             do {
@@ -94,14 +95,6 @@ struct ContentView: View {
 }
 
 func parseCSVFile (csvData: String ) {
-    /*
-     var rotX = 0.0
-     var rotY = 0.0
-     var rotZ = 0.0
-     var accX = 0.0
-     var accY = 0.0
-     var accZ = 0.0
-     */
     
     do {
         
@@ -115,7 +108,6 @@ func parseCSVFile (csvData: String ) {
         // let record = try parsedCSV.readRecord()
         
         var currentIndexInPredictionWindow = 0
-        // var rowindex = 0
         
         for row in parsedCSV {
             gyroX[currentIndexInPredictionWindow] = Double(row[0])! as NSNumber
@@ -133,8 +125,6 @@ func parseCSVFile (csvData: String ) {
         }
         
         currentIndexInPredictionWindow = 0
-        //rowindex = 0
-        
         
     } catch {
         print ("CSVRead: Failed to Open/Parse CSV file")
