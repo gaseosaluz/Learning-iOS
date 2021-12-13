@@ -10,7 +10,7 @@ Once I finish developing algorithms that transform the data into MultiArrays (wh
 
 * Reead and write CSV files with `CodableCSV`. https://iosexample.com/read-and-write-csv-files-row-by-row-or-through-swifts-codable-interface/
 
-* Uniform Type Identifiers.  https://developer.apple.com/documentation/uniformtypeidentifiers/system_declared_uniform_type_identifiers
+* Uniform Type Identifiers.  https://developer.apple.com/documentation/uniformtypeidentifiers/system_declared_uniform_type_identifiers. Contains UTType identifies for comma separated text, tab separated text, etc files.  We are using `commaSeparatedText` to restrict it to CSV files where the `,` is the actual separator.
 
 
 
