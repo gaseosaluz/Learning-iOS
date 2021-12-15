@@ -14,6 +14,7 @@
 		54B09B2D276A8C6000629A27 /* CodableCSV in Frameworks */ = {isa = PBXBuildFile; productRef = 54B09B2C276A8C6000629A27 /* CodableCSV */; };
 		54B09B2F276A8C8900629A27 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 54B09B2E276A8C8900629A27 /* README.md */; };
 		54B09B31276A8E0500629A27 /* CSVDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B09B30276A8E0500629A27 /* CSVDocument.swift */; };
+		54B09B33276A91DB00629A27 /* CSVUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B09B32276A91DB00629A27 /* CSVUtilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		54B09B24276A8BE400629A27 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		54B09B2E276A8C8900629A27 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		54B09B30276A8E0500629A27 /* CSVDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVDocument.swift; sourceTree = "<group>"; };
+		54B09B32276A91DB00629A27 /* CSVUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVUtilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 			children = (
 				54B09B1D276A8BE200629A27 /* CSVActivityRecognitionApp.swift */,
 				54B09B1F276A8BE200629A27 /* ContentView.swift */,
+				54B09B32276A91DB00629A27 /* CSVUtilities.swift */,
 				54B09B30276A8E0500629A27 /* CSVDocument.swift */,
 				54B09B2E276A8C8900629A27 /* README.md */,
 				54B09B21276A8BE400629A27 /* Assets.xcassets */,
@@ -153,6 +156,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				54B09B20276A8BE200629A27 /* ContentView.swift in Sources */,
+				54B09B33276A91DB00629A27 /* CSVUtilities.swift in Sources */,
 				54B09B31276A8E0500629A27 /* CSVDocument.swift in Sources */,
 				54B09B1E276A8BE200629A27 /* CSVActivityRecognitionApp.swift in Sources */,
 			);
