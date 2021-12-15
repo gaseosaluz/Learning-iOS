@@ -8,7 +8,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-// 
+//
 struct CSVDocument: FileDocument {
     
     static var readableContentTypes: [UTType] { [.plainText] }

@@ -17,6 +17,9 @@ struct ModelConstants {
     static let stateInLength = 400
 }
 
+var currentIndexInPredictionWindow = 0
+
+
 // MARK: The Core ML Classifier model expects MultiArrays, so create MLMultiArray variables to hold the sensor data that we are going to feed to the model
 
 // MARK: - Accelerometer data
@@ -81,8 +84,10 @@ struct ContentView: View {
                 
                 document.message = csvData
                 
-                // MARK: Parse CSV data from file
-                parseCSVFile(csvData: csvData)
+                // MARK: Parse CSV data from file.  This collects the Gyro and Accelerometer data into the AccX, AccY, AccZ, GyroX, GyroY, GyroZ MultiArrayVariables (Declared at the top of this file
+                
+                getGyroAccelfromCSV(csvData: csvData)
+                addMotionDataSampleToArray (csvData: csvData)
                 
             } catch {
                 // Handle error
