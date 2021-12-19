@@ -15,6 +15,8 @@ struct ModelConstants {
     static let predictionWindowSize = 50
     static let sensorsUpdateInterval = 1.0 / 50.0
     static let stateInLength = 400
+    static let hiddenInLenght = 20
+    static let hiddenCellInLenght = 200
 }
 
 var currentIndexInPredictionWindow = 0
@@ -48,6 +50,25 @@ let gyroZ = try! MLMultiArray(
     shape: [ModelConstants.predictionWindowSize] as [NSNumber],
     dataType: MLMultiArrayDataType.double)
 
+var stateOutput = try! MLMultiArray(
+    shape:[ModelConstants.stateInLength as NSNumber],
+    dataType: MLMultiArrayDataType.double)
+
+var currentState = try? MLMultiArray(
+    shape: [(ModelConstants.hiddenInLenght + ModelConstants.hiddenCellInLenght) as NSNumber],
+    dataType: MLMultiArrayDataType.double)
+
+// MARK: - Intialize CoreML Model
+let activityClassificationModel: UCIHAClassifier = {
+    do {
+        let config = MLModelConfiguration()
+        return try UCIHAClassifier(configuration: config)
+    } catch {
+        print(error)
+        fatalError("Couldn't create ML Model")
+    }
+}()
+
 struct ContentView: View {
     
     @State private var document: CSVDocument = CSVDocument(message: "No CSV data yet")
@@ -55,7 +76,6 @@ struct ContentView: View {
     @State private var isExporting: Bool = false
     @State private var analysisArrayFull: Bool = false
     
-    //let csvData = [String]()
     
     var body: some View {
         
