@@ -12,6 +12,8 @@
 import SwiftUI
 import CodableCSV
 
+// Function below is for development purposes only - not used
+
 func getGyroAccelfromCSV (csvData: String ) {
     
     do {
@@ -50,7 +52,17 @@ func getGyroAccelfromCSV (csvData: String ) {
     return
 }
 
-func addMotionDataSampleToArray (csvData: String) {
+///
+/// addCSVMotionDataSampletoArray
+///
+/// This function takes the String that contains the entire CSV input file and parses it row by row.
+/// As it parses each row it 'walks' the row from left to right and updates the gyroX, gyroY, gyroZ
+/// AccelX, AccelY and AccelZ arrays with the data.
+///
+/// As it updates the Analysis array with a set of Gyro and Accelerometer data, it updates the index into the
+/// prediction window
+///
+func addCSVMotionDataSampleToArray (csvData: String) {
     do {
         
         let parsedCSV = try CSVReader(input: csvData) { $0.headerStrategy = .firstLine }
@@ -74,7 +86,12 @@ func addMotionDataSampleToArray (csvData: String) {
             accZ[currentIndexInPredictionWindow] = Double(row[5])! as NSNumber
             
             currentIndexInPredictionWindow += 1
-            // rowindex = rowindex + 6
+            print("Added sample at position: ", currentIndexInPredictionWindow)
+            // If data array is full - execute a prediction
+            if (currentIndexInPredictionWindow == ModelConstants.predictionWindowSize) {
+                print("Enough data, make a prediction")
+                break
+            }
             
             print(("Row: \(row)"))
         }

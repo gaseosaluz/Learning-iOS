@@ -53,6 +53,7 @@ struct ContentView: View {
     @State private var document: CSVDocument = CSVDocument(message: "No CSV data yet")
     @State private var isImporting: Bool = false
     @State private var isExporting: Bool = false
+    @State private var analysisArrayFull: Bool = false
     
     //let csvData = [String]()
     
@@ -86,8 +87,8 @@ struct ContentView: View {
                 
                 // MARK: Parse CSV data from file.  This collects the Gyro and Accelerometer data into the AccX, AccY, AccZ, GyroX, GyroY, GyroZ MultiArrayVariables (Declared at the top of this file
                 
-                getGyroAccelfromCSV(csvData: csvData)
-                addMotionDataSampleToArray (csvData: csvData)
+                // getGyroAccelfromCSV(csvData: csvData)
+                addCSVMotionDataSampleToArray (csvData: csvData)
                 
             } catch {
                 // Handle error
