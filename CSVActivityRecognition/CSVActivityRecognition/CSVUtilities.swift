@@ -90,6 +90,15 @@ func addCSVMotionDataSampleToArray (csvData: String) {
             // If data array is full - execute a prediction
             if (currentIndexInPredictionWindow == ModelConstants.predictionWindowSize) {
                 print("Enough data, make a prediction")
+                if let predictedActivity = performModelPrediction() {
+                    // activityName = predictedActivity
+                    print("Predicted Activity: \(predictedActivity)")
+                            // Use the predicted activity here
+                            // ...
+
+                            // Start a new prediction window
+                    currentIndexInPredictionWindow = 0
+                }
                 break
             }
             

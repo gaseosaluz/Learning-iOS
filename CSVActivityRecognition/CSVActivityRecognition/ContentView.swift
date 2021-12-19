@@ -75,6 +75,7 @@ struct ContentView: View {
     @State private var isImporting: Bool = false
     @State private var isExporting: Bool = false
     @State private var analysisArrayFull: Bool = false
+    @State public var activityName: String = "No Activity"
     
     
     var body: some View {
