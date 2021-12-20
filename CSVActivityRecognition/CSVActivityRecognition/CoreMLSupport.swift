@@ -13,6 +13,7 @@ import CodableCSV
 
 func performModelPrediction () -> String? {
     // Perform model prediction
+    
     let modelPrediction = try! activityClassificationModel.prediction(acc_x: accX, acc_y: accY, acc_z: accZ, gyro_x: gyroX, gyro_y: gyroY, gyro_z: gyroZ, stateIn: stateOutput)
 
     // Update the state vector

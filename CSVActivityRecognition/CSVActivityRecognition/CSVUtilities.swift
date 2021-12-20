@@ -12,7 +12,7 @@
 import SwiftUI
 import CodableCSV
 
-// Function below is for development purposes only - not used
+// Function (getGyroAccelfromCSV) below is for development purposes only - not used
 
 func getGyroAccelfromCSV (csvData: String ) {
     
@@ -86,7 +86,7 @@ func addCSVMotionDataSampleToArray (csvData: String) {
             accZ[currentIndexInPredictionWindow] = Double(row[5])! as NSNumber
             
             currentIndexInPredictionWindow += 1
-            print("Added sample at position: ", currentIndexInPredictionWindow)
+            // print("Added sample at position: ", currentIndexInPredictionWindow)
             // If data array is full - execute a prediction
             if (currentIndexInPredictionWindow == ModelConstants.predictionWindowSize) {
                 print("Enough data, make a prediction")

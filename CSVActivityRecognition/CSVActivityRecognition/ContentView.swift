@@ -96,7 +96,7 @@ struct ContentView: View {
         // MARK: File importer
         .fileImporter(
             isPresented: $isImporting,
-            // .plainText
+            // Only open CSV Files and only one at the time
             allowedContentTypes: [.commaSeparatedText],
             allowsMultipleSelection: false
         ) { result in
@@ -107,8 +107,14 @@ struct ContentView: View {
                 document.message = csvData
                 
                 // MARK: Parse CSV data from file.  This collects the Gyro and Accelerometer data into the AccX, AccY, AccZ, GyroX, GyroY, GyroZ MultiArrayVariables (Declared at the top of this file
+                // Set stateOutput and input to zero before starting a new session
+                // Not sure if this is the best way to do this.
                 
-                // getGyroAccelfromCSV(csvData: csvData)
+                for indx in stride(from: 0, to: 399, by: 1)
+                {
+                    stateOutput[indx] = 0.0
+                }
+                
                 addCSVMotionDataSampleToArray (csvData: csvData)
                 
             } catch {
