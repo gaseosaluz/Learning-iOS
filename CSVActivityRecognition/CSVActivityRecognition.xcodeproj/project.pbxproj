@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		54558D7D276FE3A80015465C /* UCIHAClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 54558D7C276FE3A80015465C /* UCIHAClassifier.mlmodel */; };
 		54B09B1E276A8BE200629A27 /* CSVActivityRecognitionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B09B1D276A8BE200629A27 /* CSVActivityRecognitionApp.swift */; };
 		54B09B20276A8BE200629A27 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B09B1F276A8BE200629A27 /* ContentView.swift */; };
 		54B09B22276A8BE400629A27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54B09B21276A8BE400629A27 /* Assets.xcassets */; };
@@ -17,10 +16,11 @@
 		54B09B31276A8E0500629A27 /* CSVDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B09B30276A8E0500629A27 /* CSVDocument.swift */; };
 		54B09B33276A91DB00629A27 /* CSVUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B09B32276A91DB00629A27 /* CSVUtilities.swift */; };
 		54B09B37276A9AFF00629A27 /* CoreMLSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B09B36276A9AFF00629A27 /* CoreMLSupport.swift */; };
+		54CE91EB27714B9200CA8DD3 /* UCIHAClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 54CE91EA27714B9200CA8DD3 /* UCIHAClassifier.mlmodel */; };
+		54CE91ED27714DDD00CA8DD3 /* UCICreateML.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 54CE91EC27714DDD00CA8DD3 /* UCICreateML.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		54558D7C276FE3A80015465C /* UCIHAClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = UCIHAClassifier.mlmodel; sourceTree = "<group>"; };
 		54B09B1A276A8BE200629A27 /* CSVActivityRecognition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CSVActivityRecognition.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54B09B1D276A8BE200629A27 /* CSVActivityRecognitionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVActivityRecognitionApp.swift; sourceTree = "<group>"; };
 		54B09B1F276A8BE200629A27 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -30,6 +30,8 @@
 		54B09B30276A8E0500629A27 /* CSVDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVDocument.swift; sourceTree = "<group>"; };
 		54B09B32276A91DB00629A27 /* CSVUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVUtilities.swift; sourceTree = "<group>"; };
 		54B09B36276A9AFF00629A27 /* CoreMLSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLSupport.swift; sourceTree = "<group>"; };
+		54CE91EA27714B9200CA8DD3 /* UCIHAClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = UCIHAClassifier.mlmodel; sourceTree = "<group>"; };
+		54CE91EC27714DDD00CA8DD3 /* UCICreateML.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = UCICreateML.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,7 +72,8 @@
 				54B09B30276A8E0500629A27 /* CSVDocument.swift */,
 				54B09B2E276A8C8900629A27 /* README.md */,
 				54B09B21276A8BE400629A27 /* Assets.xcassets */,
-				54558D7C276FE3A80015465C /* UCIHAClassifier.mlmodel */,
+				54CE91EA27714B9200CA8DD3 /* UCIHAClassifier.mlmodel */,
+				54CE91EC27714DDD00CA8DD3 /* UCICreateML.mlmodel */,
 				54B09B23276A8BE400629A27 /* Preview Content */,
 			);
 			path = CSVActivityRecognition;
@@ -164,8 +167,9 @@
 				54B09B20276A8BE200629A27 /* ContentView.swift in Sources */,
 				54B09B37276A9AFF00629A27 /* CoreMLSupport.swift in Sources */,
 				54B09B33276A91DB00629A27 /* CSVUtilities.swift in Sources */,
+				54CE91ED27714DDD00CA8DD3 /* UCICreateML.mlmodel in Sources */,
 				54B09B31276A8E0500629A27 /* CSVDocument.swift in Sources */,
-				54558D7D276FE3A80015465C /* UCIHAClassifier.mlmodel in Sources */,
+				54CE91EB27714B9200CA8DD3 /* UCIHAClassifier.mlmodel in Sources */,
 				54B09B1E276A8BE200629A27 /* CSVActivityRecognitionApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

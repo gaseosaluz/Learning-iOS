@@ -14,11 +14,11 @@ import CodableCSV
 func performModelPrediction () -> String? {
     // Perform model prediction
     
-    let modelPrediction = try! activityClassificationModel.prediction(acc_x: accX, acc_y: accY, acc_z: accZ, gyro_x: gyroX, gyro_y: gyroY, gyro_z: gyroZ, stateIn: stateOutput)
+    let modelPrediction = try! activityClassificationModel.prediction(acceleration_x: accX, acceleration_y: accY, acceleration_z: accZ, rotation_x: gyroX, rotation_y: gyroY, rotation_z: gyroZ, stateIn: stateOutput)
 
     // Update the state vector
     stateOutput = modelPrediction.stateOut
 
     // Return the predicted activity - the activity with the highest probability
-    return modelPrediction.activity
+    return modelPrediction.label
 }

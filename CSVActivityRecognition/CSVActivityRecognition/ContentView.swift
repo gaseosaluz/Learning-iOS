@@ -59,6 +59,7 @@ var currentState = try? MLMultiArray(
     dataType: MLMultiArrayDataType.double)
 
 // MARK: - Intialize CoreML Model
+/*
 let activityClassificationModel: UCIHAClassifier = {
     do {
         let config = MLModelConfiguration()
@@ -68,7 +69,17 @@ let activityClassificationModel: UCIHAClassifier = {
         fatalError("Couldn't create ML Model")
     }
 }()
+*/
 
+let activityClassificationModel: UCICreateML = {
+    do {
+        let config = MLModelConfiguration()
+        return try UCICreateML(configuration: config)
+    } catch {
+        print(error)
+        fatalError("Couldn't create ML Model")
+    }
+}()
 struct ContentView: View {
     
     @State private var document: CSVDocument = CSVDocument(message: "No CSV data yet")
