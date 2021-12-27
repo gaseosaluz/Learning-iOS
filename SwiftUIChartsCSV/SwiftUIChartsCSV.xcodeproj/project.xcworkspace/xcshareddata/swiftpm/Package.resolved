@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "CodableCSV",
+        "repositoryURL": "https://github.com/dehesa/CodableCSV",
+        "state": {
+          "branch": "master",
+          "revision": "99ace2cfdfbc19108b529c021005fb57a460e715",
+          "version": null
+        }
+      },
+      {
+        "package": "SwiftUICharts",
+        "repositoryURL": "https://github.com/willdale/SwiftUICharts",
+        "state": {
+          "branch": "main",
+          "revision": "133c493e6f67f4c563ab836aa809bfb66f25111e",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
