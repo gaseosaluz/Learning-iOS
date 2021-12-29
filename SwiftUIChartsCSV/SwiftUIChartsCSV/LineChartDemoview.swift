@@ -9,20 +9,26 @@
 import SwiftUI
 import SwiftUICharts
 import Combine
+import Foundation
 
 struct LineChartDemoView: View {
     
-    let data: LineChartData = weekOfData()
+    let data: LineChartData = sampleData()
+    
+    let data2: LineChartData = sampleData()
     
     var body: some View {
         LineChart(chartData: data)
+            /*
             .extraLine(chartData: data,
                        legendTitle: "Test",
                        datapoints: extraLineData,
                        style: extraLineStyle)
+             */
             .pointMarkers(chartData: data)
             .touchOverlay(chartData: data,
                           formatter: numberFormatter)
+        /*
             .yAxisPOI(chartData: data,
                       markerName: "Step Count Aim",
                       markerValue: 15_000,
@@ -46,6 +52,7 @@ struct LineChartDemoView: View {
                       markerValue: 2,
                       dataPointCount: data.dataSets.dataPoints.count,
                       lineColour: .red)
+         */
             .averageLine(chartData: data,
                          labelPosition: .yAxis(specifier: "",
                                                formatter: numberFormatter),
@@ -82,6 +89,8 @@ struct LineChartDemoView: View {
          ExtraLineDataPoint(value: 15000),
          ExtraLineDataPoint(value: 9000)]
     }
+    
+    
     private var extraLineStyle: ExtraLineStyle {
         ExtraLineStyle(lineColour: ColourStyle(colour: .blue),
                        lineType: .line,
@@ -90,6 +99,10 @@ struct LineChartDemoView: View {
     
     static func datafromCSVView()  {
         let data = LineDataSet(dataPoints: [])
+    }
+    
+    static func sampleData()  {
+        
     }
     
     static func weekOfData() -> LineChartData {
@@ -103,6 +116,76 @@ struct LineChartDemoView: View {
             LineChartDataPoint(value: 9000 , xAxisLabel: "S", description: "Sunday"   ),
         ],
         legendTitle: "Steps",
+        pointStyle: PointStyle(),
+        style: LineStyle(lineColour: ColourStyle(colour: .red), lineType: .curvedLine))
+        
+        let gridStyle = GridStyle(numberOfLines: 7,
+                                   lineColour   : Color(.lightGray).opacity(0.5),
+                                   lineWidth    : 1,
+                                   dash         : [8],
+                                   dashPhase    : 0)
+        
+        let chartStyle = LineChartStyle(infoBoxPlacement    : .infoBox(isStatic: false),
+                                        infoBoxContentAlignment: .vertical,
+                                        infoBoxBorderColour : Color.primary,
+                                        infoBoxBorderStyle  : StrokeStyle(lineWidth: 1),
+                                        
+                                        markerType          : .vertical(attachment: .line(dot: .style(DotStyle()))),
+                                        
+                                        xAxisGridStyle      : gridStyle,
+                                        xAxisLabelPosition  : .bottom,
+                                        xAxisLabelColour    : Color.primary,
+                                        xAxisLabelsFrom     : .dataPoint(rotation: .degrees(0)),
+                                        xAxisTitle          : "xAxisTitle",
+                                        
+                                        yAxisGridStyle      : gridStyle,
+                                        yAxisLabelPosition  : .leading,
+                                        yAxisLabelColour    : Color.primary,
+                                        yAxisNumberOfLabels : 7,
+                                        
+                                        baseline            : .minimumWithMaximum(of: 5000),
+                                        topLine             : .maximum(of: 20000),
+                                        
+                                        globalAnimation     : .easeOut(duration: 1))
+        
+        
+        
+        let chartData = LineChartData(dataSets       : data,
+                                      metadata       : ChartMetadata(title: "Step Count", subtitle: "Over a Week"),
+                                      chartStyle     : chartStyle)
+        
+        defer {
+            chartData.touchedDataPointPublisher
+                .map(\.value)
+                .sink { value in
+                    var dotStyle: DotStyle
+                    if value < 10_000 {
+                        dotStyle = DotStyle(fillColour: .red)
+                    } else if value >= 10_000 && value <= 15_000 {
+                        dotStyle = DotStyle(fillColour: .blue)
+                    } else {
+                        dotStyle = DotStyle(fillColour: .green)
+                    }
+                    withAnimation(.linear(duration: 0.5)) {
+                        chartData.chartStyle.markerType = .vertical(attachment: .line(dot: .style(dotStyle)))
+                    }
+                }
+                .store(in: &chartData.subscription)
+        }
+        
+        return chartData
+        
+    }
+
+    // -----
+    
+    static func sampleData() -> LineChartData {
+        let data = LineDataSet(dataPoints: [
+            LineChartDataPoint(value: Double(Int.random(in: 1..<5000))),
+            LineChartDataPoint(value: Double(Int.random(in: 1..<5000))),
+            LineChartDataPoint(value: Double(Int.random(in: 1..<5000))),
+        ],
+        legendTitle: "Random",
         pointStyle: PointStyle(),
         style: LineStyle(lineColour: ColourStyle(colour: .red), lineType: .curvedLine))
         
