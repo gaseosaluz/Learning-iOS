@@ -16,6 +16,7 @@ struct ContentView: View {
         HStack {
             VStack {
                 AxisLabels(.vertical, data: (-10...10).reversed(), id: \.self) {
+                    //Text("\($0 * 20)")
                     Text("\($0 * 10)")
                         .fontWeight(.bold)
                         .font(Font.system(size: 8))
