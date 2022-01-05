@@ -18,6 +18,7 @@
 		54B09B37276A9AFF00629A27 /* CoreMLSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B09B36276A9AFF00629A27 /* CoreMLSupport.swift */; };
 		54CE91EB27714B9200CA8DD3 /* UCIHAClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 54CE91EA27714B9200CA8DD3 /* UCIHAClassifier.mlmodel */; };
 		54CE91ED27714DDD00CA8DD3 /* UCICreateML.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 54CE91EC27714DDD00CA8DD3 /* UCICreateML.mlmodel */; };
+		54DE931C2785047900ECC483 /* UCICreateML.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 54DE931B2785047900ECC483 /* UCICreateML.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		54B09B36276A9AFF00629A27 /* CoreMLSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLSupport.swift; sourceTree = "<group>"; };
 		54CE91EA27714B9200CA8DD3 /* UCIHAClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = UCIHAClassifier.mlmodel; sourceTree = "<group>"; };
 		54CE91EC27714DDD00CA8DD3 /* UCICreateML.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = UCICreateML.mlmodel; sourceTree = "<group>"; };
+		54DE931B2785047900ECC483 /* UCICreateML.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = UCICreateML.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 				54B09B21276A8BE400629A27 /* Assets.xcassets */,
 				54CE91EA27714B9200CA8DD3 /* UCIHAClassifier.mlmodel */,
 				54CE91EC27714DDD00CA8DD3 /* UCICreateML.mlmodel */,
+				54DE931B2785047900ECC483 /* UCICreateML.mlmodel */,
 				54B09B23276A8BE400629A27 /* Preview Content */,
 			);
 			path = CSVActivityRecognition;
@@ -165,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				54B09B20276A8BE200629A27 /* ContentView.swift in Sources */,
+				54DE931C2785047900ECC483 /* UCICreateML.mlmodel in Sources */,
 				54B09B37276A9AFF00629A27 /* CoreMLSupport.swift in Sources */,
 				54B09B33276A91DB00629A27 /* CSVUtilities.swift in Sources */,
 				54CE91ED27714DDD00CA8DD3 /* UCICreateML.mlmodel in Sources */,

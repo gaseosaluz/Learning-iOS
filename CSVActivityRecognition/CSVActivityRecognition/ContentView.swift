@@ -59,17 +59,7 @@ var currentState = try? MLMultiArray(
     dataType: MLMultiArrayDataType.double)
 
 // MARK: - Intialize CoreML Model
-/*
-let activityClassificationModel: UCIHAClassifier = {
-    do {
-        let config = MLModelConfiguration()
-        return try UCIHAClassifier(configuration: config)
-    } catch {
-        print(error)
-        fatalError("Couldn't create ML Model")
-    }
-}()
-*/
+
 
 let activityClassificationModel: UCICreateML = {
     do {
