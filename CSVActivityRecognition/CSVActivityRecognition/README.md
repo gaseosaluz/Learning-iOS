@@ -41,7 +41,9 @@ The file is parsed row by row and each element in the row's column is assigned t
 
 * Parse the input file in chunks and discard a chunk that is not complete. 
 
+## BUGS
 
+* Prediction code not working. It alwasy returns *Sitting*
 
 
 
