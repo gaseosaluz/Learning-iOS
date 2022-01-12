@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/Pods-ChartsDemoCSV/Pods-ChartsDemoCSV-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Charts/Charts.framework
+${BUILT_PRODUCTS_DIR}/CodableCSV/CodableCSV.framework

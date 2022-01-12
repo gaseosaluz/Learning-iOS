@@ -1,0 +1,22 @@
+PODS:
+  - Charts (3.6.0):
+    - Charts/Core (= 3.6.0)
+  - Charts/Core (3.6.0)
+  - CodableCSV (0.6.7)
+
+DEPENDENCIES:
+  - Charts
+  - CodableCSV (~> 0.6.7)
+
+SPEC REPOS:
+  trunk:
+    - Charts
+    - CodableCSV
+
+SPEC CHECKSUMS:
+  Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
+  CodableCSV: a586657d66aac32b860c0b5df52d49440ec6e6dd
+
+PODFILE CHECKSUM: f99b76b8d378dad3f329c60e55c7dd7d584a8eb1
+
+COCOAPODS: 1.11.2
